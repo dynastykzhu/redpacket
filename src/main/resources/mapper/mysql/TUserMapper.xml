@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsloan.redpacket.dao.mysql.TUserMapper">
+    <resultMap id="BaseResultMap" type="com.wsloan.redpacket.entity.TUser">
+        <id column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="cmtel" jdbcType="VARCHAR" property="cmtel"/>
+        <result column="all_rewards" jdbcType="DECIMAL" property="allRewards"/>
+        <result column="available_rewards" jdbcType="DECIMAL" property="availableRewards"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    open_id, name, cmtel, all_rewards, available_rewards, create_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from wsd_redpacket.t_user
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wsd_redpacket.t_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.wsloan.redpacket.entity.TUser">
+    insert into wsd_redpacket.t_user (open_id, name, cmtel,
+      all_rewards, available_rewards, create_date
+      )
+    values (#{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cmtel,jdbcType=VARCHAR}, 
+      #{allRewards,jdbcType=DECIMAL}, #{availableRewards,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.wsloan.redpacket.entity.TUser">
+        insert into wsd_redpacket.t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="cmtel != null">
+                cmtel,
+            </if>
+            <if test="allRewards != null">
+                all_rewards,
+            </if>
+            <if test="availableRewards != null">
+                available_rewards,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="cmtel != null">
+                #{cmtel,jdbcType=VARCHAR},
+            </if>
+            <if test="allRewards != null">
+                #{allRewards,jdbcType=DECIMAL},
+            </if>
+            <if test="availableRewards != null">
+                #{availableRewards,jdbcType=DECIMAL},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wsloan.redpacket.entity.TUser">
+        update wsd_redpacket.t_user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="cmtel != null">
+                cmtel = #{cmtel,jdbcType=VARCHAR},
+            </if>
+            <if test="allRewards != null">
+                all_rewards = #{allRewards,jdbcType=DECIMAL},
+            </if>
+            <if test="availableRewards != null">
+                available_rewards = #{availableRewards,jdbcType=DECIMAL},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wsloan.redpacket.entity.TUser">
+    update wsd_redpacket.t_user
+    set name = #{name,jdbcType=VARCHAR},
+      cmtel = #{cmtel,jdbcType=VARCHAR},
+      all_rewards = #{allRewards,jdbcType=DECIMAL},
+      available_rewards = #{availableRewards,jdbcType=DECIMAL},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+    <update id="updateByPrimaryKeySome" parameterType="com.wsloan.redpacket.entity.TUser">
+        update wsd_redpacket.t_user
+        <set>
+            <if test="allRewards != null">
+                all_rewards = all_rewards + #{allRewards,jdbcType=DECIMAL},
+            </if>
+            <if test="availableRewards != null">
+                available_rewards =available_rewards + #{availableRewards,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

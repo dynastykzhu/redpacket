@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsloan.redpacket.dao.mysql.TRewardsMapper">
+  <resultMap id="BaseResultMap" type="com.wsloan.redpacket.entity.TRewards">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id_accept" jdbcType="VARCHAR" property="openIdAccept" />
+    <result column="name_accept" jdbcType="VARCHAR" property="nameAccept" />
+    <result column="award_accept" jdbcType="DECIMAL" property="awardAccept" />
+    <result column="open_id_send" jdbcType="VARCHAR" property="openIdSend" />
+    <result column="name_send" jdbcType="VARCHAR" property="nameSend" />
+    <result column="award_send" jdbcType="DECIMAL" property="awardSend" />
+    <result column="create" jdbcType="TIMESTAMP" property="create" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, open_id_accept, name_accept, award_accept, open_id_send, name_send, award_send, 
+    `create`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wsd_redpacket.t_rewards
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wsd_redpacket.t_rewards
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wsloan.redpacket.entity.TRewards">
+    insert into wsd_redpacket.t_rewards (id, open_id_accept, name_accept,
+      award_accept, open_id_send, name_send, 
+      award_send, `create`)
+    values (#{id,jdbcType=INTEGER}, #{openIdAccept,jdbcType=VARCHAR}, #{nameAccept,jdbcType=VARCHAR}, 
+      #{awardAccept,jdbcType=DECIMAL}, #{openIdSend,jdbcType=VARCHAR}, #{nameSend,jdbcType=VARCHAR}, 
+      #{awardSend,jdbcType=DECIMAL}, #{create,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wsloan.redpacket.entity.TRewards">
+    insert into wsd_redpacket.t_rewards
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openIdAccept != null">
+        open_id_accept,
+      </if>
+      <if test="nameAccept != null">
+        name_accept,
+      </if>
+      <if test="awardAccept != null">
+        award_accept,
+      </if>
+      <if test="openIdSend != null">
+        open_id_send,
+      </if>
+      <if test="nameSend != null">
+        name_send,
+      </if>
+      <if test="awardSend != null">
+        award_send,
+      </if>
+      <if test="create != null">
+        `create`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openIdAccept != null">
+        #{openIdAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="nameAccept != null">
+        #{nameAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="awardAccept != null">
+        #{awardAccept,jdbcType=DECIMAL},
+      </if>
+      <if test="openIdSend != null">
+        #{openIdSend,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSend != null">
+        #{nameSend,jdbcType=VARCHAR},
+      </if>
+      <if test="awardSend != null">
+        #{awardSend,jdbcType=DECIMAL},
+      </if>
+      <if test="create != null">
+        #{create,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wsloan.redpacket.entity.TRewards">
+    update wsd_redpacket.t_rewards
+    <set>
+      <if test="openIdAccept != null">
+        open_id_accept = #{openIdAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="nameAccept != null">
+        name_accept = #{nameAccept,jdbcType=VARCHAR},
+      </if>
+      <if test="awardAccept != null">
+        award_accept = #{awardAccept,jdbcType=DECIMAL},
+      </if>
+      <if test="openIdSend != null">
+        open_id_send = #{openIdSend,jdbcType=VARCHAR},
+      </if>
+      <if test="nameSend != null">
+        name_send = #{nameSend,jdbcType=VARCHAR},
+      </if>
+      <if test="awardSend != null">
+        award_send = #{awardSend,jdbcType=DECIMAL},
+      </if>
+      <if test="create != null">
+        `create` = #{create,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wsloan.redpacket.entity.TRewards">
+    update wsd_redpacket.t_rewards
+    set open_id_accept = #{openIdAccept,jdbcType=VARCHAR},
+      name_accept = #{nameAccept,jdbcType=VARCHAR},
+      award_accept = #{awardAccept,jdbcType=DECIMAL},
+      open_id_send = #{openIdSend,jdbcType=VARCHAR},
+      name_send = #{nameSend,jdbcType=VARCHAR},
+      award_send = #{awardSend,jdbcType=DECIMAL},
+      `create` = #{create,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByOpenIdAccept" resultType="map">
+    select
+    id, open_id_accept openIdAccept, name_accept nameAccept, award_accept awardAccept, open_id_send openIdSend, name_send nameSend, award_send awardSend,
+    `create` ,
+    (case when open_id_accept=#{openIdAccept} then 0
+          when open_id_send =#{openIdAccept} then 1
+    else 2 end )type
+    from wsd_redpacket.t_rewards
+    where open_id_accept = #{openIdAccept} or open_id_send =#{openIdAccept}
+    order by id desc
+  </select>
+
+  <select id="selectByOpenIdAcceptAndopenIdSend" resultType="int">
+    SELECT
+    COUNT(1)
+    FROM
+    wsd_redpacket.t_rewards
+    WHERE
+    open_id_accept = #{openIdAccept}
+    AND open_id_send = #{openIdSend}
+  </select>
+
+
+  <select id="selectNumByOpenIdAcceptOneDay" resultType="int">
+    SELECT
+	COUNT(1)
+    FROM
+	wsd_redpacket.t_rewards
+    WHERE
+	open_id_accept = #{openIdAccept}
+    AND DATEDIFF(`create`, sysdate()) = 0
+  </select>
+</mapper>
